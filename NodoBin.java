@@ -70,4 +70,12 @@ public class NodoBin <T extends Comparable<T>> {
 	public T getElem() {
 		return this.elem;
 	}
+
+        // Este comment quiero hacerlo para probar el git shit
+        /*
+         *if this then that
+         *
+         * i like git?
+         */
+
 }
