@@ -53,15 +53,14 @@ public class LinkedBinaryTree <T extends Comparable<T>> implements BinaryTreeADT
 		list.add(actual.getElem());
 	}
 	
-	// POR NIVEL
-	public Iterator<T> nivelOrden() {
-		ArrayList<T> lista = new ArrayList<T>();
+	public Iterator<NodoBin<T>> nivelOrden() {
+		ArrayList<NodoBin<T>> lista = new ArrayList<NodoBin<T>>();
 		Queue<NodoBin<T>> queue = new LinkedList<NodoBin<T>>(); 
         queue.add(raiz.getDer()); 
         while (!queue.isEmpty()) { 
   
             NodoBin<T> tempNode = queue.poll(); 
-            lista.add(tempNode.getElem());
+            lista.add(tempNode);
 
             if (tempNode.getIzq() != null) { 
                 queue.add(tempNode.getIzq()); 
@@ -75,46 +74,61 @@ public class LinkedBinaryTree <T extends Comparable<T>> implements BinaryTreeADT
 	}
 	
 	public String printTree() {
-		String res = "";
-		Iterator<T> iter = nivelOrden();
-		int size = size();
-		int space = ((size-1)/2)-1;
-		int cont = 1;
+		String res = "    Print del Árbol AVL\n\n"
+				+ " ----- POR NIVEL -----\n\n"
+				+ "Nivel 1: ";
+		int count = 0, nivel = 2, mult = 1, ind = 0;
+		NodoBin<T>[] arregloNodos = new NodoBin[cont];
+		Iterator<NodoBin<T>> iter = nivelOrden();
 		
 		while(iter.hasNext()) {
-			for (int j = 0; j < cont; j++) {
-				for (int i = 0; i < space; i++) 
-					res += " ";
-				if(iter.hasNext())
-					res += iter.next();
+			NodoBin<T> actual = iter.next();
+			arregloNodos[ind] = actual;
+			ind++;
+			res += actual.getElem() + "(" + actual.getFe() + ")   ";
+			if (count % mult == 0) {
+				res += "\nNivel " + nivel + ": ";
+				mult *= 2;
+				count = 0;
+				nivel++; 
 			}
-			cont *= 2;
-			res += "\n";
+			count++;
+		}
+		
+		res += "\n\n----- POR JERARQUÍA -----\n";
+		
+		for (int i = 0; i < cont; i++) {
+			if(arregloNodos[i] == null) {
+				res += "\nNULL";
+			} else {
+				res += "\n" + arregloNodos[i] + "\n";	
+				res += "FE: " + arregloNodos[i].getFe() + "\n";
+				res += ("  " + arregloNodos[i].getPapa().getElem()) + "\n";
+				res += ("  |") + "\n";
+				res += ("  " + arregloNodos[i].getElem()) + "\n";
+				res += (" / \\ ") + "\n";
+				if(arregloNodos[i].getIzq() != null)
+					res += (arregloNodos[i].getIzq().getElem());
+				else
+					res += ("N");
+				
+				
+				if (arregloNodos[i].getDer() != null)
+					res += ("   " + arregloNodos[i].getDer().getElem()) + "\n";
+				else
+					res += ("   N") + "\n";
+					
+			}
+			
 		}
 		return res;
 	}
 
-	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
 		return cont == 0;
 	}
 
-	@Override
 	public int size() {
-		// TODO Auto-generated method stub
 		return cont;
-	}
-
-	@Override
-	public boolean contains(T elem) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public T find(T elem) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

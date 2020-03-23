@@ -152,10 +152,5 @@ public class LinkedBinarySearchTree<T extends Comparable<T>> extends LinkedBinar
 		}
 		return actual;
 	}
-/*	
-	public NodoBin<T> mayorDiferenciaDeAlturas() {
-		
-	}
-*/	
 
 }

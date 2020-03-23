@@ -11,6 +11,7 @@ public class AVLTree<T extends Comparable<T>> extends LinkedBinarySearchTree<T> 
         
         boolean termino = false;
     	NodoBin<T> papa;
+    	
         // Empieza a actualizar factor equilibrio
     	while(!termino) {
     	    papa = actual.getPapa();
@@ -26,6 +27,7 @@ public class AVLTree<T extends Comparable<T>> extends LinkedBinarySearchTree<T> 
     	    		termino = true;
     	    		return actual;
     	    	} else if (papa.getFe() > 1 || papa.getFe() < -1) {
+    	    		
     	    		// Rotaciones
     	    		rotacion(papa);
     	    		termino = true;
@@ -38,10 +40,11 @@ public class AVLTree<T extends Comparable<T>> extends LinkedBinarySearchTree<T> 
     
     public NodoBin<T> borra(T elem) {
     	NodoBin<T> porBorrar = busca(elem);
-    	NodoBin<T> comienzo;
-    	if (porBorrar.getDer() != null && porBorrar.getIzq() != null) {
-    		comienzo = buscaMin(porBorrar.getDer()); // Es el papa del sucesor in orden del nodo que queremos borrar, es el primer nodo donde el factor equilibrio puede cambiar
-    		if (!comienzo.getPapa().equals(porBorrar))
+    	NodoBin<T> comienzo; // Comienzo es el nodo donde empieza a actualizar factores de equilibrio
+    	
+    	if (porBorrar.getDer() != null && porBorrar.getIzq() != null) { // Caso en el que el nodo por borrar tiene dos hijos
+    		comienzo = buscaMin(porBorrar.getDer());
+    		if (!comienzo.getPapa().equals(porBorrar)) // Caso en el que el sucesorInOrden es también el hijo
     			comienzo = comienzo.getPapa();
     	} else {
     		comienzo = porBorrar.getPapa();
