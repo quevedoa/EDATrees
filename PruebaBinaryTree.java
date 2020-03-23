@@ -62,7 +62,7 @@ public class PruebaBinaryTree {
 		}
 		
 		System.out.println("\n\n PRUEBA BORRAR \n\n ");
-		tree.borra(30);
+		tree.borra(21);
 		
 		NodoBin<Integer>[] arregloNodos1 = new NodoBin[tree.cont+1];
 		
@@ -82,7 +82,7 @@ public class PruebaBinaryTree {
 			//System.out.println(arregloNodos1[i]);
 		}
 		
-		for (int i = 0; i < tree.cont; i++) {
+		for (int i = 0; i <= tree.cont; i++) {
 			if(arregloNodos1[i] == null) {
 				System.out.println();
 				System.out.println("NULL");

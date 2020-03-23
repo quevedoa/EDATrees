@@ -23,8 +23,8 @@ public class NodoBin <T extends Comparable<T>> {
 	}
 
 	public void cuelga(NodoBin<T> nodo) {
-		//if (nodo == null)
-		//	return;
+		if (nodo == null)
+			return;
 		if (getElem() == null) 
 			this.setDer(nodo);
 		else if (nodo.getElem().compareTo(getElem()) < 0) 

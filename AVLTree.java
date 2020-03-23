@@ -39,8 +39,10 @@ public class AVLTree<T extends Comparable<T>> extends LinkedBinarySearchTree<T> 
     public NodoBin<T> borra(T elem) {
     	NodoBin<T> porBorrar = busca(elem);
     	NodoBin<T> comienzo;
-    	if (porBorrar.getDer() != null) {
-    		comienzo = buscaMin(porBorrar.getDer()).getPapa(); // Es el papa del sucesor in orden del nodo que queremos borrar, es el primer nodo donde el factor equilibrio puede cambiar
+    	if (porBorrar.getDer() != null && porBorrar.getIzq() != null) {
+    		comienzo = buscaMin(porBorrar.getDer()); // Es el papa del sucesor in orden del nodo que queremos borrar, es el primer nodo donde el factor equilibrio puede cambiar
+    		if (!comienzo.getPapa().equals(porBorrar))
+    			comienzo = comienzo.getPapa();
     	} else {
     		comienzo = porBorrar.getPapa();
     	}
@@ -48,25 +50,22 @@ public class AVLTree<T extends Comparable<T>> extends LinkedBinarySearchTree<T> 
         NodoBin<T> papa;
         boolean termino = false;
         
-        comienzo.setFe(1); // Como el nodo que borramos es hijo izquierdo de comienzo entonces el factor equilibrio forsozamente sube 1
+        comienzo.setFe(altura(comienzo.getDer())-altura(comienzo.getIzq()) - comienzo.getFe());
+        
         while(!termino) {
         	papa = comienzo.getPapa();
-        	if(comienzo.getFe() != 0) {
+        	if (papa.equals(raiz)) {
         		termino = true;
-        	} else if (papa.equals(raiz))
+        	} else if (comienzo.getFe() == 1 || comienzo.getFe() == -1) {
         		termino = true;
-        	else {
-        		if(comienzo.equals(papa.getIzq())) 
-        			// AQUI HICE UN CAMBIO
-        			papa.setFe(1);
-        		else
-        			papa.setFe(-1);
-        		if (papa.getFe() > 1 || papa.getFe() < -1) {
-        			rotacion(papa);
-        		}
+        	} else {
+        		if (comienzo.getFe() > 1 || comienzo.getFe() < -1) 
+        			rotacion(comienzo);
+        		papa.setFe(altura(papa.getDer())-altura(papa.getIzq()) - papa.getFe());
         	}
         	comienzo = papa;
         }
+       
         return nodoBorrado;
     }
    

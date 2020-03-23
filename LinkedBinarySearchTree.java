@@ -57,12 +57,19 @@ public class LinkedBinarySearchTree<T extends Comparable<T>> extends LinkedBinar
 			return hijo;
 		} else { // Caso donde hay dos hijos
 			NodoBin<T> sucesorInOrden = buscaMin(actual.getDer());
-			if (sucesorInOrden.getDer() != null) {
-				sucesorInOrden.getPapa().cuelga(sucesorInOrden.getDer());
+			if (!sucesorInOrden.getPapa().equals(actual)) {
+				if (sucesorInOrden.getDer() != null) {
+					sucesorInOrden.getPapa().cuelga(sucesorInOrden.getDer());
+				} else {
+					sucesorInOrden.getPapa().setIzq(null);
+				}
+				actual.getPapa().cuelga(sucesorInOrden);
+				sucesorInOrden.cuelga(actual.getIzq());
+				sucesorInOrden.cuelga(actual.getDer());
 			} else {
-				sucesorInOrden.getPapa().setIzq(null);
+				actual.getPapa().cuelga(sucesorInOrden);
+				sucesorInOrden.cuelga(actual.getIzq());
 			}
-			actual.getPapa().cuelga(sucesorInOrden);
 			cont--;
 			return sucesorInOrden;
 		}
