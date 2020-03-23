@@ -60,17 +60,13 @@ public class LinkedBinaryTree <T extends Comparable<T>> implements BinaryTreeADT
         queue.add(raiz.getDer()); 
         while (!queue.isEmpty()) { 
   
-            /* poll() removes the present head. 
-            For more information on poll() visit  
-            http://www.tutorialspoint.com/java/util/linkedlist_poll.htm */
             NodoBin<T> tempNode = queue.poll(); 
             lista.add(tempNode.getElem());
-            /*Enqueue left child */
+
             if (tempNode.getIzq() != null) { 
                 queue.add(tempNode.getIzq()); 
             } 
   
-            /*Enqueue right child */
             if (tempNode.getDer() != null) { 
                 queue.add(tempNode.getDer()); 
             } 

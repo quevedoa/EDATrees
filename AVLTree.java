@@ -8,6 +8,7 @@ public class AVLTree<T extends Comparable<T>> extends LinkedBinarySearchTree<T> 
 
     public NodoBin<T> inserta(T elem) {
         NodoBin<T> actual = super.inserta(elem);
+        
         boolean termino = false;
     	NodoBin<T> papa;
         // Empieza a actualizar factor equilibrio
@@ -56,9 +57,10 @@ public class AVLTree<T extends Comparable<T>> extends LinkedBinarySearchTree<T> 
         		termino = true;
         	else {
         		if(comienzo.equals(papa.getIzq())) 
-        			papa.setFe(-1);
-        		else
+        			// AQUI HICE UN CAMBIO
         			papa.setFe(1);
+        		else
+        			papa.setFe(-1);
         		if (papa.getFe() > 1 || papa.getFe() < -1) {
         			rotacion(papa);
         		}
@@ -95,11 +97,11 @@ public class AVLTree<T extends Comparable<T>> extends LinkedBinarySearchTree<T> 
     public void rotacionIzq(NodoBin<T> nodo) {
         // Rotar
         NodoBin<T> nodoHijo = nodo.getDer();
+        nodo.setDer(null);
         nodo.getPapa().cuelga(nodoHijo);
         if (nodoHijo.getIzq() != null)
         	nodo.cuelga(nodoHijo.getIzq());
         nodoHijo.cuelga(nodo);
-        nodo.setDer(null);
         // Actualizar Factores Equilibrio
         nodo.setFe(altura(nodo.getDer())-altura(nodo.getIzq()) - nodo.getFe());
         nodoHijo.setFe(altura(nodoHijo.getDer())-altura(nodoHijo.getIzq()) - nodoHijo.getFe());
@@ -108,14 +110,14 @@ public class AVLTree<T extends Comparable<T>> extends LinkedBinarySearchTree<T> 
     public void rotacionDer(NodoBin<T> nodo) {
         // Rotar
         NodoBin<T> nodoHijo = nodo.getIzq();
+        nodo.setIzq(null);
         nodo.getPapa().cuelga(nodoHijo);
-        System.out.println(nodo.getElem());
         if (nodoHijo.getDer() != null)
         	nodo.cuelga(nodoHijo.getDer());
         nodoHijo.cuelga(nodo);
-        nodo.setIzq(null);
         // Actualiar Factores Equilibrio
         nodo.setFe(altura(nodo.getDer())-altura(nodo.getIzq()) - nodo.getFe());
         nodoHijo.setFe(altura(nodoHijo.getDer())-altura(nodoHijo.getIzq()) - nodoHijo.getFe());
     }
+    
 }
